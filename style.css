@@ -7,6 +7,42 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Add these transitions */
+main {
+    padding-top: 100px;
+    min-height: calc(100vh - 100px);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+main.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--primary);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -188,15 +224,15 @@ section {
     100% { background-position: 100% 50% }
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 768px) {
     .gradient-text { font-size: 2.5rem }
     .nav-links { display: none }
 }
 
-main {
-    padding-top: 100px;
-    min-height: calc(100vh - 100px);
-}
 /* Snake Game Styles */
 .game-container {
     margin-top: 2rem;
@@ -232,4 +268,54 @@ main {
 .btn-primary {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
+    /* Remove previous background color */
+    background: transparent;
+    /* Add transition */
+    transition: all 0.3s ease;
+}
+
+/* Add to style.css */
+.btn-restart {
+    background: linear-gradient(45deg, #87CEEB, #9fc8d8);
+    color: white !important;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.btn-restart::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.btn-restart:hover {
+    transform: scale(1.05);
+}
+
+.btn-restart:hover::before {
+    left: 100%;
+}
+
+/* Add new shine animation */
+@keyframes buttonShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.btn-restart {
+    background-size: 200% 200%;
+    animation: buttonShine 3s ease infinite;
 }
