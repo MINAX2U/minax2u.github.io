@@ -107,6 +107,10 @@ function createLoadingOverlay() {
 }
 
 function initializePage() {
+    document.querySelector('.hamburger').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
     // Reinitialize animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -236,3 +240,38 @@ function initSnakeGame() {
         startGame();
     })();
 }
+
+document.querySelector('.hamburger').addEventListener('click', function() {
+    document.querySelector('.nav-links').classList.toggle('active');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    const navLinks = document.querySelector('.nav-links');
+    const hamburger = document.querySelector('.hamburger');
+    
+    if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Toggle mobile menu
+document.querySelector('.hamburger').addEventListener('click', function(e) {
+    e.stopPropagation();
+    document.querySelector('.nav-links').classList.toggle('active');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Close menu on link click
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.remove('active');
+    });
+});
