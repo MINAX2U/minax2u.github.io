@@ -127,11 +127,6 @@ function initSnakeGame() {
         let score = 0;
         let gameLoop;
 
-        // ===== Mobile Touch Controls =====
-        let touchStartX = 0;
-        let touchStartY = 0;
-        const minSwipeDistance = 30; // Minimum swipe distance in pixels
-
         const mobileRestart = document.getElementById('mobileRestartBtn');
         const handleRestart = () => {
             startGame();
