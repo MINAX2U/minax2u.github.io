@@ -398,3 +398,26 @@ section {
         font-size: 0.8rem;
     }
 }
+
+.mobile-controls {
+    display: none; /* Hidden on desktop */
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--primary);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: flex; /* Show on mobile */
+    }
+}

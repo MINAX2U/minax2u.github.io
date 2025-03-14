@@ -172,6 +172,23 @@ function initSnakeGame() {
             e.preventDefault();
         }, { passive: false });
 
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                const direction = e.target.dataset.direction;
+                handleMobileButton(direction);
+                e.preventDefault();
+            });
+        });
+
+        function handleMobileButton(direction) {
+            switch(direction) {
+                case 'up': if (dy !== 1) { dx = 0; dy = -1; } break;
+                case 'down': if (dy !== -1) { dx = 0; dy = 1; } break;
+                case 'left': if (dx !== 1) { dx = -1; dy = 0; } break;
+                case 'right': if (dx !== -1) { dx = 1; dy = 0; } break;
+            }
+        }
+        
         // ===== Responsive Canvas =====
         function resizeCanvas() {
             const maxWidth = Math.min(400, window.innerWidth - 40);
