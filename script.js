@@ -132,6 +132,21 @@ function initSnakeGame() {
         let touchStartY = 0;
         const minSwipeDistance = 30; // Minimum swipe distance in pixels
 
+        const mobileRestart = document.getElementById('mobileRestartBtn');
+        const handleRestart = () => {
+            startGame();
+            // Prevent multiple clicks
+            mobileRestart.removeEventListener('touchstart', handleRestart);
+            setTimeout(() => {
+                mobileRestart.addEventListener('touchstart', handleRestart);
+            }, 500);
+        };
+
+        mobileRestart.addEventListener('touchstart', handleRestart);
+        
+        // Desktop restart button
+        restartBtn.addEventListener('click', startGame);
+        
         // Mobile directional button controls
         document.querySelectorAll('[data-direction]').forEach(button => {
             button.addEventListener('touchstart', (e) => {

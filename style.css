@@ -454,6 +454,19 @@ section {
     color: #111;
 }
 
+/* Ensure mobile restart button is clickable */
+#mobileRestartBtn {
+    z-index: 100;
+    position: relative;
+    touch-action: manipulation;
+}
+
+/* Prevent button highlight on press */
+.control-btn {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
     .mobile-controls {
