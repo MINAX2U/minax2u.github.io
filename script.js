@@ -124,6 +124,64 @@ function initSnakeGame() {
         let score = 0;
         let gameLoop;
 
+        // ===== Mobile Touch Controls =====
+        let touchStartX = 0;
+        let touchStartY = 0;
+        const minSwipeDistance = 30; // Minimum swipe distance in pixels
+
+        canvas.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            e.preventDefault();
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', function(e) {
+            if (!touchStartX) return;
+            
+            const touchEndX = e.touches[0].clientX;
+            const touchEndY = e.touches[0].clientY;
+            
+            const deltaX = touchEndX - touchStartX;
+            const deltaY = touchEndY - touchStartY;
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Horizontal swipe
+                if (Math.abs(deltaX) < minSwipeDistance) return;
+                
+                if (deltaX > 0 && dx !== -1) { // Right swipe
+                    dx = 1;
+                    dy = 0;
+                } else if (deltaX < 0 && dx !== 1) { // Left swipe
+                    dx = -1;
+                    dy = 0;
+                }
+            } else {
+                // Vertical swipe
+                if (Math.abs(deltaY) < minSwipeDistance) return;
+                
+                if (deltaY > 0 && dy !== -1) { // Down swipe
+                    dx = 0;
+                    dy = 1;
+                } else if (deltaY < 0 && dy !== 1) { // Up swipe
+                    dx = 0;
+                    dy = -1;
+                }
+            }
+
+            touchStartX = null; // Reset touch position
+            e.preventDefault();
+        }, { passive: false });
+
+        // ===== Responsive Canvas =====
+        function resizeCanvas() {
+            const maxWidth = Math.min(400, window.innerWidth - 40);
+            canvas.style.width = maxWidth + 'px';
+            canvas.style.height = maxWidth + 'px';
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
         function drawGame() {
             clearCanvas();
             moveSnake();

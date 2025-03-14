@@ -1,3 +1,4 @@
+/* ========== Variables ========== */
 :root {
     --primary: #87CEEB;
     --secondary: #7e1fdc;
@@ -5,6 +6,21 @@
     --text-primary: #fff;
     --glass: rgba(255, 255, 255, 0.05);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========== Base Styles ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 main {
@@ -20,17 +36,184 @@ main.hidden {
     transform: translateY(20px);
 }
 
-body {
-    background: var(--background);
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
 section {
     scroll-margin-top: 100px;
 }
 
+/* ========== Animations ========== */
+@keyframes shine {
+    0% {
+        background-position: -100px;
+    }
+
+    100% {
+        background-position: 200px;
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes buttonShine {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== Navbar & Navigation ========== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0 1.5rem;
+    backdrop-filter: blur(20px) saturate(180%);
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(17, 17, 17, 0.6) !important;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.nav-links a {
+    color: var(--text-primary);
+    text-decoration: none;
+    margin: 0 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    background: var(--glass);
+}
+
+/* ========== Hero Section ========== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.gradient-text {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 8s infinite alternate;
+}
+
+/* ========== Cards & Containers ========== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 32px rgba(0, 112, 243, 0.1);
+}
+
+/* ========== Social Cards ========== */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.social-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    text-align: center;
+    padding: 2rem;
+    background: var(--glass);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.social-card * {
+    position: relative;
+    z-index: 2;
+}
+
+.social-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    z-index: 1;
+}
+
+.social-card:hover::before {
+    left: 100%;
+}
+
+.social-card:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* ========== Loading Overlay ========== */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -53,190 +236,17 @@ section {
     animation: spin 1s linear infinite;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.logo:hover {
-    opacity: 0.8;
-    text-decoration: none;
-}
-
-.navbar {
-    height: 60px; /* Fixed height */
-    padding: 0 1.5rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    backdrop-filter: blur(20px) saturate(180%);
-    background: transparent !important; /* Force transparent background */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.3s ease;
-}
-
-.nav-links a {
-    color: var(--text-primary);
-    text-decoration: none;
-    margin: 0 1.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    transition: var(--transition);
-}
-
-.navbar.scrolled {
-    background: rgba(17, 17, 17, 0.6) !important;
-}
-
-.nav-links a:hover {
-    background: var(--glass);
-}
-
-.hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 4rem 2rem;
-}
-
-.gradient-text {
-    background: linear-gradient(45deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 4rem;
-    margin-bottom: 1.5rem;
-    animation: gradientShift 8s infinite alternate;
-}
-
-.card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 2rem;
-    margin: 1.5rem 0;
-    border: 1px solid var(--glass);
-    transition: var(--transition);
-    cursor: pointer;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 32px rgba(0, 112, 243, 0.1);
-}
-
-.container {
-    padding: 2rem 0;
-    margin: 0 auto;
-    max-width: 1200px;
-}
-
-.social-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.social-card {
-    background: var(--glass);
-    color: white !important;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    text-align: center;
-    transition: var(--transition);
-}
-
-.social-card * {
-    color: white !important;
-    position: relative;
-    z-index: 2;
-}
-
-.social-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
-    z-index: 1;
-}
-
-.social-card:hover::before {
-    left: 100%;
-}
-
-.social-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-}
-.social-grid + .social-grid {
-    margin-top: 2rem;
-}
-
-@keyframes shine {
-    0% { background-position: -100px; }
-    100% { background-position: 200px; }
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50% }
-    100% { background-position: 100% 50% }
-}
-
-/* Add new shine animation */
-@keyframes buttonShine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@media (max-width: 768px) {
-    .gradient-text { font-size: 2.5rem }
-    .nav-links { display: none }
-}
-
-/*Snake Game*/
+/* ========== Snake Game ========== */
 .game-container {
     margin-top: 2rem;
 }
 
 .game-wrapper {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    position: relative;
 }
 
 #gameCanvas {
@@ -248,9 +258,9 @@ section {
 .game-controls {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     max-width: 400px;
-    align-items: center;
 }
 
 #score {
@@ -262,16 +272,18 @@ section {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
     background: transparent;
-    transition: all 0.3s ease;
+    transition: var(--transition);
 }
 
 .btn-restart {
-    background: linear-gradient(45deg, #87CEEB, #9fc8d8);
-    color: white !important;
     border: none;
+    color: white;
+    background: linear-gradient(45deg, #87CEEB, #9fc8d8);
     position: relative;
     overflow: hidden;
+    background-size: 200% 200%;
     transition: transform 0.3s ease;
+    animation: buttonShine 3s ease infinite;
 }
 
 .btn-restart::before {
@@ -281,12 +293,7 @@ section {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.4),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
     transition: 0.5s;
 }
 
@@ -298,37 +305,47 @@ section {
     left: 100%;
 }
 
-.btn-restart {
-    background-size: 200% 200%;
-    animation: buttonShine 3s ease infinite;
+/* ========== Hamburger Menu & Responsive Styles ========== */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    padding: 0.5rem;
 }
 
+/* Responsive breakpoints */
 @media (max-width: 768px) {
-    /* Navigation */
+
+    /* Navbar adjustments */
     .nav-links {
-        display: none;
-        position: absolute;
+        position: fixed;
         top: 60px;
-        right: 0;
-        background: var(--background);
-        flex-direction: column;
+        right: -100%;
         width: 100%;
+        height: calc(100vh - 60px);
+        background: var(--background);
+        display: flex;
+        flex-direction: column;
         padding: 1rem;
         text-align: center;
+        transition: right 0.3s ease;
     }
 
     .nav-links.active {
-        display: flex;
+        right: 0;
     }
 
     .hamburger {
         display: block;
-        color: white;
-        font-size: 1.5rem;
-        cursor: pointer;
+        order: 1;
     }
 
-    /* Hero Section */
+    .logo {
+        order: -1;
+    }
+
+    /* Hero adjustments */
     .gradient-text {
         font-size: 2.5rem;
     }
@@ -348,9 +365,9 @@ section {
 
     /* Snake Game */
     #gameCanvas {
+        max-width: 300px;
         width: 100%;
         height: auto;
-        max-width: 300px;
     }
 
     .game-controls {
@@ -358,7 +375,7 @@ section {
         gap: 1rem;
     }
 
-    /* General Layout */
+    /* General Container & Card adjustments */
     .container {
         padding: 1rem;
     }
@@ -372,49 +389,12 @@ section {
     .gradient-text {
         font-size: 2rem;
     }
-    
+
     .hero-subtitle {
         font-size: 1.2rem;
     }
-    
+
     .skill-tag {
         font-size: 0.8rem;
-    }
-}
-
-/* Hamburger Menu */
-.hamburger {
-    display: none; /* Hidden by default */
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: white;
-    padding: 0.5rem;
-}
-
-/* Mobile Styles */
-@media (max-width: 768px) {
-    .nav-links {
-        position: fixed;
-        top: 60px;
-        right: -100%;
-        width: 100%;
-        height: calc(100vh - 60px);
-        background: var(--background);
-        transition: right 0.3s ease;
-        display: flex !important;
-        flex-direction: column;
-    }
-    
-    .nav-links.active {
-        right: 0;
-    }
-    
-    .hamburger {
-        display: block;
-        order: 1; /* Positions icon to right */
-    }
-    
-    .logo {
-        order: -1; /* Positions logo to left */
     }
 }
