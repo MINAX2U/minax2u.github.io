@@ -429,6 +429,25 @@ section {
 .right { grid-area: 2 / 3; }
 .down { grid-area: 3 / 2; }
 
+.mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #87CEEB;
+    color: #87CEEB;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.mode-toggle.active {
+    background: #87CEEB;
+    color: #111;
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
     .mobile-controls {
