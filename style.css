@@ -467,6 +467,87 @@ section {
     user-select: none;
 }
 
+.btn-reverse {
+    background: linear-gradient(45deg, #ff6b6b, #ff5252);
+    color: white !important;
+    border: none;
+}
+
+.mobile-controls {
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    width: 300px;
+    margin: 20px auto;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Position elements */
+.up { grid-area: 1 / 2; }
+.restart { grid-area: 1 / 3; }
+.left { grid-area: 2 / 1; }
+.reverse { grid-area: 2 / 2; }
+.right { grid-area: 2 / 3; }
+.down { grid-area: 3 / 2; }
+
+/* Colors */
+.restart {
+    background: linear-gradient(45deg, #87CEEB, #9fc8d8);
+    color: white;
+}
+
+.reverse {
+    background: linear-gradient(45deg, #ff6b6b, #ff5252);
+    color: white;
+}
+
+.mobile-message {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Show only on mobile devices */
+@media (max-width: 768px) {
+    .mobile-message {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: grid;
+    }
+}
+
+/* Desktop-only reverse instruction */
+@media (min-width: 769px) {
+    .reverse-instruction {
+        display: block;
+        color: #87CEEB;
+        text-align: center;
+        margin-top: 1rem;
+    }
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
     .mobile-controls {

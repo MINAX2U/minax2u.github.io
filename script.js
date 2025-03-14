@@ -105,6 +105,8 @@ function createLoadingOverlay() {
 document.addEventListener('DOMContentLoaded', initializePage);
 window.addEventListener('popstate', () => location.reload());
 
+
+
 // Snake game initialization function
 function initSnakeGame() {
     (function() {
@@ -165,7 +167,16 @@ function initSnakeGame() {
             });
         });
 
+        document.getElementById('mobileReverseBtn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            reverseSnake();
+        });
+
         document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                reverseSnake();
+            }
             switch(e.key) {
                 case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
                 case 'ArrowDown': if (dy !== -1) { dx = 0; dy = 1; } break;
@@ -173,6 +184,14 @@ function initSnakeGame() {
                 case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
             }
         });
+
+        function reverseSnake() {
+            // Flip direction
+            dx *= -1;
+            dy *= -1;
+            // Reverse body segments
+            snake = snake.reverse();
+        }
 
         document.querySelectorAll('.control-btn').forEach(btn => {
             btn.addEventListener('touchstart', (e) => {

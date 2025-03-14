@@ -34,14 +34,19 @@
                 <h3>貪吃蛇不貪吃</h3>
                 <div class="game-wrapper">
                     <canvas id="gameCanvas" width="400" height="400"></canvas>
+                    <p class="reverse-instruction">空白鍵反轉</p>
+                    <div class="mobile-message">
+                        手機按方向鍵紅色是反方向藍色是重新
+                    </div>
                     <div class="game-controls">
                         <div id="score">Score: 0</div>
                         <button id="restartBtn" class="btn-primary btn-restart">Restart</button>
                     </div>
                     <div class="mobile-controls">
                         <button class="control-btn up" data-direction="up">↑</button>
+                        <button class="control-btn restart" id="mobileRestartBtn">↻</button>
                         <button class="control-btn left" data-direction="left">←</button>
-                        <button id="mobileRestartBtn" class="control-btn btn-restart">↻</button>
+                        <button class="control-btn reverse" id="mobileReverseBtn">↺</button>
                         <button class="control-btn right" data-direction="right">→</button>
                         <button class="control-btn down" data-direction="down">↓</button>
                     </div>
