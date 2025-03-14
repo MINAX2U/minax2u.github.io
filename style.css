@@ -238,7 +238,8 @@ section {
 
 /* ========== Snake Game ========== */
 .game-container {
-    margin-top: 2rem;
+    touch-action: none;
+    overscroll-behavior: contain;
 }
 
 .game-wrapper {
@@ -407,6 +408,11 @@ section {
     place-items: center;
     width: 300px;
     margin: 2rem auto;
+}
+
+.control-btn:active {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
 }
 
 .control-btn {
