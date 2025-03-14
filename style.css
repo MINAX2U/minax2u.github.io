@@ -1,6 +1,6 @@
 :root {
-    --primary: #0070f3;
-    --secondary: #7928ca;
+    --primary: #87CEEB;
+    --secondary: #7e1fdc;
     --background: #111;
     --text-primary: #fff;
     --glass: rgba(255, 255, 255, 0.05);
@@ -19,6 +19,13 @@ main {
 main.hidden {
     opacity: 0;
     transform: translateY(20px);
+}
+
+body {
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .loading-overlay {
@@ -50,13 +57,6 @@ main.hidden {
     font-family: 'Segoe UI', sans-serif;
 }
 
-body {
-    background: var(--background);
-    color: var(--text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
@@ -69,22 +69,7 @@ body {
     opacity: 0.8;
     text-decoration: none;
 }
-/*
-.page {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: var(--transition);
-    position: absolute;
-    width: 100%;
-    padding-top: 80px;  Height of navbar + extra spacing 
-    min-height: calc(100vh - 80px); Full viewport height minus navbar 
-}
 
-.page.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-*/
 .navbar {
     height: 60px; /* Fixed height */
     padding: 0 1.5rem;
@@ -209,6 +194,10 @@ body {
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
 }
+.social-grid + .social-grid {
+    margin-top: 2rem;
+}
+
 
 section {
     scroll-margin-top: 100px;
@@ -222,6 +211,13 @@ section {
 @keyframes gradientShift {
     0% { background-position: 0% 50% }
     100% { background-position: 100% 50% }
+}
+
+/* Add new shine animation */
+@keyframes buttonShine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @keyframes spin {
@@ -308,14 +304,23 @@ section {
     left: 100%;
 }
 
-/* Add new shine animation */
-@keyframes buttonShine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .btn-restart {
     background-size: 200% 200%;
     animation: buttonShine 3s ease infinite;
 }
+/*
+.page {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+    position: absolute;
+    width: 100%;
+    padding-top: 80px;  Height of navbar + extra spacing 
+    min-height: calc(100vh - 80px); Full viewport height minus navbar 
+}
+
+.page.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+*/
