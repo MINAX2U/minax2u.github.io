@@ -1,4 +1,3 @@
-// Remove ALL previous JavaScript and replace with:
 
 // Highlight active page in navigation
 document.addEventListener('DOMContentLoaded', function() {

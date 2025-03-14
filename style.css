@@ -7,7 +7,6 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Add these transitions */
 main {
     padding-top: 100px;
     min-height: calc(100vh - 100px);
@@ -26,6 +25,10 @@ body {
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+section {
+    scroll-margin-top: 100px;
 }
 
 .loading-overlay {
@@ -73,7 +76,6 @@ body {
 .navbar {
     height: 60px; /* Fixed height */
     padding: 0 1.5rem;
-    /*padding: 1.5rem;*/
     position: fixed;
     width: 100%;
     top: 0;
@@ -198,11 +200,6 @@ body {
     margin-top: 2rem;
 }
 
-
-section {
-    scroll-margin-top: 100px;
-}
-
 @keyframes shine {
     0% { background-position: -100px; }
     100% { background-position: 200px; }
@@ -229,7 +226,7 @@ section {
     .nav-links { display: none }
 }
 
-/* Snake Game Styles */
+/*Snake Game*/
 .game-container {
     margin-top: 2rem;
 }
@@ -264,13 +261,10 @@ section {
 .btn-primary {
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
-    /* Remove previous background color */
     background: transparent;
-    /* Add transition */
     transition: all 0.3s ease;
 }
 
-/* Add to style.css */
 .btn-restart {
     background: linear-gradient(45deg, #87CEEB, #9fc8d8);
     color: white !important;
