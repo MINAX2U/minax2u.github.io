@@ -400,52 +400,21 @@ section {
         width: 100%;
         height: calc(100vh - 60px);
         background: var(--background);
-        flex-direction: column;
-        padding: 1rem;
         transition: right 0.3s ease;
-        z-index: 1000;
-        display: flex !important; /* Force display */
+        display: flex !important;
+        flex-direction: column;
     }
     
     .nav-links.active {
         right: 0;
     }
     
-    .nav-links a {
-        margin: 0.5rem 0;
-        padding: 1rem;
-        text-align: center;
-        width: 100%;
-    }
-    
     .hamburger {
         display: block;
-        order: 1;
-    }
-    
-    .navbar {
-        justify-content: space-between;
-        padding: 0 1rem;
+        order: 1; /* Positions icon to right */
     }
     
     .logo {
-        order: -1;
+        order: -1; /* Positions logo to left */
     }
 }
-
-/*
-.page {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: var(--transition);
-    position: absolute;
-    width: 100%;
-    padding-top: 80px;  Height of navbar + extra spacing 
-    min-height: calc(100vh - 80px); Full viewport height minus navbar 
-}
-
-.page.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-*/

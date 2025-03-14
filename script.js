@@ -1,15 +1,8 @@
+// ================ FIXED SCRIPT.JS ================ 
+// Highlight active page
+document.addEventListener('DOMContentLoaded', highlightActiveLink);
 
-// Highlight active page in navigation
-document.addEventListener('DOMContentLoaded', function() {
-    const currentPage = location.pathname.split('/').pop();
-    document.querySelectorAll('.nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Keep only card animations if needed
+// Intersection Observer
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -19,120 +12,101 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.card, .social-card').forEach(el => {
-    el.style.opacity = 0;
-    el.style.transform = 'translateY(20px)';
-    observer.observe(el);
-});
+// Initialize page components
+function initializePage() {
+    // 1. Mobile menu
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    
+    hamburger?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+    });
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle initial page load
-    highlightActiveLink();
-    initializePage();
-});
-
-// Smooth page transitions
-document.querySelectorAll('.nav-link, .logo').forEach(link => {
-    link.addEventListener('click', async function(e) {
-        e.preventDefault();
-        const url = this.href;
-
-        // Show loading overlay
-        const loadingOverlay = createLoadingOverlay();
-        document.body.appendChild(loadingOverlay);
-
-        try {
-            // Fetch new page content
-            const response = await fetch(url);
-            const text = await response.text();
-            const newDocument = new DOMParser().parseFromString(text, 'text/html');
-
-            // Extract important parts
-            const newMain = newDocument.querySelector('main');
-            const newNav = newDocument.querySelector('.nav-links');
-
-            // Start transition
-            document.querySelector('main').classList.add('hidden');
-            
-            setTimeout(async () => {
-                // Update content
-                document.querySelector('main').replaceWith(newMain);
-                document.querySelector('.nav-links').replaceWith(newNav);
-
-                // Reinitialize components
-                highlightActiveLink();
-                initializePage();
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-                
-                // Hide loading overlay
-                loadingOverlay.remove();
-                
-                // Trigger new content animation
-                setTimeout(() => {
-                    newMain.classList.remove('hidden');
-                }, 50);
-            }, 300);
-
-            // Update browser history
-            window.history.pushState(null, null, url);
-
-        } catch (error) {
-            console.error('Page transition failed:', error);
-            window.location = url;
+    document.addEventListener('click', (e) => {
+        if (!hamburger?.contains(e.target) && !navLinks?.contains(e.target)) {
+            navLinks?.classList.remove('active');
         }
     });
-});
 
-// Handle browser back/forward
-window.addEventListener('popstate', () => {
-    window.location.reload();
-});
+    // 2. Navigation links (SPA transitions)
+    document.querySelectorAll('.nav-link, .logo').forEach(link => {
+        link.addEventListener('click', handleNavigation);
+    });
 
+    // 3. Card animations
+    document.querySelectorAll('.card, .social-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        observer.observe(el);
+    });
+
+    // 4. Snake game (about page only)
+    if (window.location.pathname.includes('about.html')) {
+        initSnakeGame();
+    }
+}
+
+// SPA navigation handler
+async function handleNavigation(e) {
+    e.preventDefault();
+    const url = this.href;
+    const loadingOverlay = createLoadingOverlay();
+    
+    try {
+        document.body.appendChild(loadingOverlay);
+        const response = await fetch(url);
+        const text = await response.text();
+        const newDoc = new DOMParser().parseFromString(text, 'text/html');
+
+        // Fade out old content
+        document.querySelector('main').classList.add('hidden');
+
+        setTimeout(() => {
+            // Replace content
+            document.querySelector('main').replaceWith(newDoc.querySelector('main'));
+            document.querySelector('.nav-links').replaceWith(newDoc.querySelector('.nav-links'));
+            
+            // Reinitialize everything
+            highlightActiveLink();
+            initializePage();
+            window.scrollTo(0, 0);
+            
+            // Fade in new content
+            loadingOverlay.remove();
+            setTimeout(() => {
+                document.querySelector('main').classList.remove('hidden');
+            }, 50);
+        }, 300);
+
+        window.history.pushState(null, null, url);
+    } catch (error) {
+        console.error('Navigation failed:', error);
+        window.location = url;
+    }
+}
+
+// Helper functions
 function highlightActiveLink() {
-    const currentPath = window.location.pathname;
+    const currentPage = location.pathname.split('/').pop();
     document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.toggle('active', link.href === window.location.href);
+        link.classList.toggle('active', link.getAttribute('href') === currentPage);
     });
 }
 
 function createLoadingOverlay() {
     const overlay = document.createElement('div');
     overlay.className = 'loading-overlay';
-    const spinner = document.createElement('div');
-    spinner.className = 'loading-spinner';
-    overlay.appendChild(spinner);
+    overlay.innerHTML = '<div class="loading-spinner"></div>';
     return overlay;
 }
 
-function initializePage() {
-    document.querySelector('.hamburger').addEventListener('click', function(e) {
-        e.stopPropagation();
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
-    // Reinitialize animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, { threshold: 0.1 });
+// Initial load
+document.addEventListener('DOMContentLoaded', initializePage);
+window.addEventListener('popstate', () => location.reload());
 
-    document.querySelectorAll('.card, .social-card').forEach(el => {
-        el.style.opacity = 0;
-        el.style.transform = 'translateY(20px)';
-        observer.observe(el);
-    });
-
-    // Reinitialize game if on about page
-    if (window.location.pathname.includes('about.html')) {
-        initSnakeGame();
-    }
-}
-
+// Keep your existing snake game code below
+// ================ END OF FIXES ================
 // Snake game initialization function
 function initSnakeGame() {
     (function() {
@@ -240,38 +214,3 @@ function initSnakeGame() {
         startGame();
     })();
 }
-
-document.querySelector('.hamburger').addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.toggle('active');
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', function(e) {
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
-    
-    if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-        navLinks.classList.remove('active');
-    }
-});
-
-// Toggle mobile menu
-document.querySelector('.hamburger').addEventListener('click', function(e) {
-    e.stopPropagation();
-    document.querySelector('.nav-links').classList.toggle('active');
-});
-
-// Close menu when clicking outside
-document.addEventListener('click', function(e) {
-    const navLinks = document.querySelector('.nav-links');
-    if (navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-    }
-});
-
-// Close menu on link click
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('active');
-    });
-});
