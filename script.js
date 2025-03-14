@@ -105,8 +105,6 @@ function createLoadingOverlay() {
 document.addEventListener('DOMContentLoaded', initializePage);
 window.addEventListener('popstate', () => location.reload());
 
-// Keep your existing snake game code below
-// ================ END OF FIXES ================
 // Snake game initialization function
 function initSnakeGame() {
     (function() {
@@ -117,6 +115,7 @@ function initSnakeGame() {
         
         const gridSize = 20;
         const tileCount = canvas.width / gridSize;
+        const foodBuffer = 2; // Border avoidance
         let snake = [{x: 10, y: 10}];
         let food = {x: 15, y: 15};
         let dx = 0;
@@ -254,10 +253,22 @@ function initSnakeGame() {
         }
 
         function generateFood() {
-            food = {
-                x: Math.floor(Math.random() * tileCount),
-                y: Math.floor(Math.random() * tileCount)
-            };
+            const buffer = 2; // Minimum distance from border (in grid units)
+            
+            // Generate food within safe zone
+            let isValidPosition = false;
+            
+            while (!isValidPosition) {
+                food = {
+                    x: Math.floor(Math.random() * (tileCount - buffer * 2)) + buffer,
+                    y: Math.floor(Math.random() * (tileCount - buffer * 2)) + buffer
+                };
+        
+                // Check if food spawns on snake
+                isValidPosition = !snake.some(segment => 
+                    segment.x === food.x && segment.y === food.y
+                );
+            }
         }
 
         function gameOver() {
@@ -275,6 +286,8 @@ function initSnakeGame() {
             if (gameLoop) clearInterval(gameLoop);
             gameLoop = setInterval(drawGame, 100);
         }
+        
+        document.getElementById('mobileRestartBtn').addEventListener('click', startGame);
 
         document.addEventListener('keydown', (e) => {
             switch(e.key) {
@@ -284,6 +297,9 @@ function initSnakeGame() {
                 case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
             }
         });
+
+        // In initSnakeGame() function:
+        
 
         restartBtn.addEventListener('click', startGame);
         startGame();

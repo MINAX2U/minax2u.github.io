@@ -398,26 +398,52 @@ section {
         font-size: 0.8rem;
     }
 }
-
+/* Update CSS */
 .mobile-controls {
-    display: none; /* Hidden on desktop */
-    flex-direction: column;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: 10px;
-    margin-top: 1rem;
+    place-items: center;
+    width: 300px;
+    margin: 2rem auto;
 }
 
 .control-btn {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    font-size: 1.5rem;
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid var(--primary);
-    color: white;
+    color: var(--primary);
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Position elements */
+.up { grid-area: 1 / 2; }
+.left { grid-area: 2 / 1; }
+.btn-restart { grid-area: 2 / 2; }
+.right { grid-area: 2 / 3; }
+.down { grid-area: 3 / 2; }
+
+/* Mobile styles */
 @media (max-width: 768px) {
     .mobile-controls {
-        display: flex; /* Show on mobile */
+        display: grid;
+    }
+    
+    #restartBtn {
+        display: none;
+    }
+    
+    .btn-restart {
+        background: linear-gradient(45deg, #87CEEB, #9fc8d8);
+        color: white;
+        border: none;
+        width: 70px;
+        height: 70px;
     }
 }
