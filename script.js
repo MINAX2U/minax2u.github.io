@@ -165,6 +165,15 @@ function initSnakeGame() {
             });
         });
 
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
+                case 'ArrowDown': if (dy !== -1) { dx = 0; dy = 1; } break;
+                case 'ArrowLeft': if (dx !== 1) { dx = -1; dy = 0; } break;
+                case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
+            }
+        });
+
         document.querySelectorAll('.control-btn').forEach(btn => {
             btn.addEventListener('touchstart', (e) => {
                 const direction = e.target.dataset.direction;
@@ -251,19 +260,8 @@ function initSnakeGame() {
 
         function checkCollision() {
             const head = snake[0];
-            const buffer = extensionLevel * 2; // Allow temporary out-of-bounds
-            
-            if (head.x < -buffer || 
-                head.x >= tileCount + buffer || 
-                head.y < -buffer || 
-                head.y >= tileCount + buffer) {
+            if(head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
                 gameOver();
-            }
-            
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    gameOver();
-                }
             }
         }
 
@@ -311,18 +309,6 @@ function initSnakeGame() {
         }
         
         document.getElementById('mobileRestartBtn').addEventListener('click', startGame);
-
-        document.addEventListener('keydown', (e) => {
-            switch(e.key) {
-                case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
-                case 'ArrowDown': if (dy !== -1) { dx = 0; dy = 1; } break;
-                case 'ArrowLeft': if (dx !== 1) { dx = -1; dy = 0; } break;
-                case 'ArrowRight': if (dx !== -1) { dx = 1; dy = 0; } break;
-            }
-        });
-
-        // In initSnakeGame() function:
-        
 
         restartBtn.addEventListener('click', startGame);
         startGame();
