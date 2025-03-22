@@ -6,6 +6,8 @@
     --text-primary: #fff;
     --glass: rgba(255, 255, 255, 0.05);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --snake-head: #6a7cac;
+    --snake-body: #00f3ff;
 }
 
 /* ========== Base Styles ========== */
@@ -523,6 +525,49 @@ section {
     padding: 10px;
     text-align: center;
     z-index: 1000;
+}
+
+/* Leaderboard styles */
+.leaderboard {
+    position: fixed;
+    right: 20px;
+    z-index: 1000;
+    top: 100px;
+    bottom: 20px;
+    overflow-y: auto;
+}
+
+.scores-modal {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid #87CEEB;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 10px;
+    max-width: 250px;
+}
+
+.scores-modal h3 {
+    color: #87CEEB;
+    margin-bottom: 0.5rem;
+}
+
+#highScores {
+    color: white;
+    list-style: decimal inside;
+    padding: 0;
+}
+
+#toggleLeaderboard {
+    background: rgba(135, 206, 235, 0.3);
+    border: 2px solid #87CEEB;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
 }
 
 /* Show only on mobile devices */

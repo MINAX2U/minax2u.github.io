@@ -230,10 +230,31 @@ function initSnakeGame() {
         }
 
         function drawSnake() {
-            ctx.fillStyle = '#00f3ff';
-            snake.forEach(segment => {
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize-2, gridSize-2);
-            });
+                    // Head color (first segment)
+            ctx.fillStyle = getComputedStyle(document.documentElement)
+                .getPropertyValue('--snake-head');
+            
+            // Draw head
+            ctx.fillRect(
+                snake[0].x * gridSize, 
+                snake[0].y * gridSize, 
+                gridSize-2, 
+                gridSize-2
+            );
+            
+            // Body color
+            ctx.fillStyle = getComputedStyle(document.documentElement)
+                .getPropertyValue('--snake-body');
+            
+            // Draw rest of body
+            for(let i = 1; i < snake.length; i++) {
+                ctx.fillRect(
+                    snake[i].x * gridSize, 
+                    snake[i].y * gridSize, 
+                    gridSize-2, 
+                    gridSize-2
+                );
+            }
         }
 
         function updateCanvasSize() {
@@ -324,7 +345,7 @@ function initSnakeGame() {
             scoreElement.textContent = `Score: ${score}`;
             generateFood();
             if (gameLoop) clearInterval(gameLoop);
-            gameLoop = setInterval(drawGame, 100);
+            gameLoop = setInterval(drawGame, 150);
         }
         
         document.getElementById('mobileRestartBtn').addEventListener('click', startGame);
@@ -333,3 +354,59 @@ function initSnakeGame() {
         startGame();
     })();
 }
+
+// Leaderboard functionality
+const LEADERBOARD_KEY = 'snakeHighScores';
+const MAX_SCORES = 10;
+
+function updateLeaderboard(newScore) {
+    // Get existing scores
+    const scores = JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || [];
+    
+    // Add new score
+    scores.push({
+        score: newScore,
+        date: new Date().toLocaleDateString()
+    });
+    
+    // Sort and keep top scores
+    const sortedScores = scores.sort((a, b) => b.score - a.score).slice(0, MAX_SCORES);
+    
+    // Save to storage
+    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(sortedScores));
+    
+    // Update display
+    displayLeaderboard();
+}
+
+function displayLeaderboard() {
+    const scores = JSON.parse(localStorage.getItem(LEADERBOARD_KEY)) || [];
+    const scoresList = document.getElementById('highScores');
+    
+    scoresList.innerHTML = scores
+        .map((entry, index) => `
+            <li>
+                <span>${index + 1}.</span>
+                ${entry.score} points
+                <small>(${entry.date})</small>
+            </li>
+        `)
+        .join('');
+}
+
+// Add to gameOver function
+function gameOver() {
+    clearInterval(gameInterval);
+    updateLeaderboard(score);
+    alert(`Game Over! Score: ${score}`);
+    displayLeaderboard();
+    startGame();
+}
+
+// Toggle leaderboard visibility
+document.getElementById('toggleLeaderboard').addEventListener('click', () => {
+    document.querySelector('.scores-modal').classList.toggle('hidden');
+});
+
+// Initial load
+displayLeaderboard();
